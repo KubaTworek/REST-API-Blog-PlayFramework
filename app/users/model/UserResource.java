@@ -1,6 +1,6 @@
-package repository;
+package users.model;
 
-import entities.User;
+import users.model.User;
 
 public class UserResource {
     private String id;

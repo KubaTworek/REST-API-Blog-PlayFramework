@@ -1,4 +1,4 @@
-package repository;
+package users.controller;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;

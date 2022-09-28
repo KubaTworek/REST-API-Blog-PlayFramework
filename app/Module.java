@@ -4,8 +4,8 @@ import com.codahale.metrics.Slf4jReporter;
 import com.google.inject.AbstractModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import repository.JPAUserRepository;
-import repository.UserRepository;
+import users.repository.JPAUserRepository;
+import users.repository.UserRepository;
 
 import javax.inject.Provider;
 import java.util.concurrent.TimeUnit;

@@ -1,6 +1,7 @@
-package repository;
+package users.repository;
 
-import entities.User;
+import database.DatabaseExecutionContext;
+import users.model.User;
 import net.jodah.failsafe.CircuitBreaker;
 import net.jodah.failsafe.Failsafe;
 import play.db.jpa.JPAApi;
@@ -8,7 +9,6 @@ import play.db.jpa.JPAApi;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 @Singleton
-public class JPAUserRepository implements UserRepository{
+public class JPAUserRepository implements UserRepository {
 
     private final JPAApi jpapi;
     private final DatabaseExecutionContext executionContext;

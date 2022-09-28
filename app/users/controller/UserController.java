@@ -1,12 +1,10 @@
-package controllers;
+package users.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.*;
-import repository.UserAction;
-import repository.UserResource;
-import repository.UserResourceHandler;
+import users.model.UserResource;
 
 import javax.inject.Inject;
 import java.util.List;

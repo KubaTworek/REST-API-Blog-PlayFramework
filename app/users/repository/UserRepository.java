@@ -1,6 +1,6 @@
-package repository;
+package users.repository;
 
-import entities.User;
+import users.model.User;
 
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;

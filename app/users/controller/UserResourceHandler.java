@@ -1,9 +1,11 @@
-package repository;
+package users.controller;
 
 import com.palominolabs.http.url.UrlBuilder;
-import entities.User;
+import users.model.User;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Http;
+import users.model.UserResource;
+import users.repository.UserRepository;
 
 import javax.inject.Inject;
 import java.nio.charset.CharacterCodingException;
