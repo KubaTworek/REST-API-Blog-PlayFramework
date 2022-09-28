@@ -1,0 +1,4 @@
+GET    /                    controllers.UserController.findAll(request:Request)
+GET    /:id                 controllers.UserController.findById(request:Request,id)
+POST   /                    controllers.UserController.save(request:Request)
+PUT    /:id                 controllers.UserController.update(request:Request, id)
