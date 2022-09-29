@@ -6,6 +6,8 @@ import comments.repository.CommentRepository;
 import comments.repository.JPACommentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import posts.repository.JPAPostRepository;
+import posts.repository.PostRepository;
 import users.repository.JPAUserRepository;
 import users.repository.UserRepository;
 
@@ -29,6 +31,7 @@ public class Module extends AbstractModule {
         bind(MetricRegistry.class).toProvider(MetricRegistryProvider.class).asEagerSingleton();
         bind(UserRepository.class).to(JPAUserRepository.class).asEagerSingleton();
         bind(CommentRepository.class).to(JPACommentRepository.class).asEagerSingleton();
+        bind(PostRepository.class).to(JPAPostRepository.class).asEagerSingleton();
     }
 }
 
