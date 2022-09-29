@@ -11,5 +11,11 @@ GET    /users/:id        users.controller.UserController.findById(request:Reques
 POST   /users            users.controller.UserController.save(request:Request)
 PUT    /users/:id        users.controller.UserController.update(request:Request, id)
 
+# Comments endpoints
+GET    /comments            comments.controller.CommentController.findAll(request:Request)
+GET    /comments/:id        comments.controller.CommentController.findById(request:Request,id)
+POST   /comments            comments.controller.CommentController.save(request:Request)
+PUT    /comments/:id        comments.controller.CommentController.update(request:Request, id)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)

@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `Post` (
 
 CREATE TABLE IF NOT EXISTS `Comment` (
                             `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                            `content` varchar(20) NOT NULL,
+                            `content` LONGTEXT NOT NULL,
                             `post_id` int NOT NULL,
                             FOREIGN KEY(`post_id`) REFERENCES `Post`(`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

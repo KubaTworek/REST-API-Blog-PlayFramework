@@ -2,6 +2,8 @@ import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Slf4jReporter;
 import com.google.inject.AbstractModule;
+import comments.repository.CommentRepository;
+import comments.repository.JPACommentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import users.repository.JPAUserRepository;
@@ -26,6 +28,7 @@ public class Module extends AbstractModule {
     public void configure() {
         bind(MetricRegistry.class).toProvider(MetricRegistryProvider.class).asEagerSingleton();
         bind(UserRepository.class).to(JPAUserRepository.class).asEagerSingleton();
+        bind(CommentRepository.class).to(JPACommentRepository.class).asEagerSingleton();
     }
 }
 
