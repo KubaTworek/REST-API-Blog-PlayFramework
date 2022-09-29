@@ -25,29 +25,21 @@ public class UserResourceHandler {
     }
 
     public CompletionStage<Stream<UserResource>> findAll(Http.Request request) {
-        return userRepository.findAll().thenApplyAsync(userStream -> {
-            return userStream.map(user -> new UserResource(user, link(request, user)));
-        }, httpExecutionContext.current());
+        return userRepository.findAll().thenApplyAsync(userStream -> userStream.map(user -> new UserResource(user, link(request, user))), httpExecutionContext.current());
     }
 
     public CompletionStage<UserResource> save(Http.Request request, UserResource resource) {
         final User user = new User(resource.getFirstName(), resource.getLastName());
-        return userRepository.save(user).thenApplyAsync(savedUser -> {
-            return new UserResource(savedUser, link(request, savedUser));
-        }, httpExecutionContext.current());
+        return userRepository.save(user).thenApplyAsync(savedUser -> new UserResource(savedUser, link(request, savedUser)), httpExecutionContext.current());
     }
 
     public CompletionStage<Optional<UserResource>> findById(Http.Request request, String id) {
-        return userRepository.findById(Long.parseLong(id)).thenApplyAsync(optionalUser -> {
-            return optionalUser.map(user -> new UserResource(user, link(request, user)));
-        }, httpExecutionContext.current());
+        return userRepository.findById(Long.parseLong(id)).thenApplyAsync(optionalUser -> optionalUser.map(user -> new UserResource(user, link(request, user))), httpExecutionContext.current());
     }
 
     public CompletionStage<Optional<UserResource>> update(Http.Request request,String id, UserResource resource) {
         final User user = new User(resource.getFirstName(), resource.getLastName());
-        return userRepository.update(Long.parseLong(id), user).thenApplyAsync(optionalUser -> {
-            return optionalUser.map(ou -> new UserResource(ou, link(request, ou)));
-        }, httpExecutionContext.current());
+        return userRepository.update(Long.parseLong(id), user).thenApplyAsync(optionalUser -> optionalUser.map(ou -> new UserResource(ou, link(request, ou))), httpExecutionContext.current());
     }
 
     private String link(Http.Request request, User user) {
@@ -63,5 +55,4 @@ public class UserResourceHandler {
             throw new IllegalStateException(e);
         }
     }
-
 }

@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 @With(UserAction.class)
 public class UserController extends Controller {
-    private HttpExecutionContext httpExecutionContext;
-    private UserResourceHandler userResourceHandler;
+    private final HttpExecutionContext httpExecutionContext;
+    private final UserResourceHandler userResourceHandler;
 
     @Inject
     public UserController(HttpExecutionContext httpExecutionContext, UserResourceHandler userResourceHandler) {
@@ -30,29 +30,23 @@ public class UserController extends Controller {
     }
 
     public CompletionStage<Result> findById(Http.Request request, String id) {
-        return userResourceHandler.findById(request, id).thenApplyAsync(optionalResource -> {
-            return optionalResource.map(resource ->
-                    ok(Json.toJson(resource))
-            ).orElseGet(Results::notFound);
-        }, httpExecutionContext.current());
+        return userResourceHandler.findById(request, id).thenApplyAsync(optionalResource -> optionalResource.map(resource ->
+                ok(Json.toJson(resource))
+        ).orElseGet(Results::notFound), httpExecutionContext.current());
     }
 
     public CompletionStage<Result> update(Http.Request request, String id) {
         JsonNode json = request.body().asJson();
         UserResource resource = Json.fromJson(json, UserResource.class);
-        return userResourceHandler.update(request, id, resource).thenApplyAsync(optionalResource -> {
-            return optionalResource.map(r ->
-                    ok(Json.toJson(r))
-            ).orElseGet(Results::notFound
-            );
-        }, httpExecutionContext.current());
+        return userResourceHandler.update(request, id, resource).thenApplyAsync(optionalResource -> optionalResource.map(r ->
+                ok(Json.toJson(r))
+        ).orElseGet(Results::notFound
+        ), httpExecutionContext.current());
     }
 
     public CompletionStage<Result> save(Http.Request request) {
         JsonNode json = request.body().asJson();
         final UserResource resource = Json.fromJson(json, UserResource.class);
-        return userResourceHandler.save(request, resource).thenApplyAsync(savedResource -> {
-            return created(Json.toJson(savedResource));
-        }, httpExecutionContext.current());
+        return userResourceHandler.save(request, resource).thenApplyAsync(savedResource -> created(Json.toJson(savedResource)), httpExecutionContext.current());
     }
 }

@@ -1,24 +1,25 @@
-name := """rest-api-blog-play-sql"""
-organization := "pl.jakubtworek"
-
-version := "1.0-SNAPSHOT"
-
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
-
-scalaVersion := "2.13.9"
-PlayKeys.externalizeResourcesExcludes += baseDirectory.value / "conf" / "META-INF" / "persistence.xml"
-
-libraryDependencies += guice
-libraryDependencies ++= Seq(
-  javaJdbc
-)
-libraryDependencies ++= Seq(
-  javaJpa,
-  "org.hibernate" % "hibernate-core" % "5.4.9.Final" // replace by your jpa implementation
-)
-libraryDependencies ++= Seq(
-  "mysql" % "mysql-connector-java" % "8.0.30",
-  "com.palominolabs.http" % "url-builder" % "1.1.4",
-  "io.dropwizard.metrics" % "metrics-core" % "4.1.1",
-  "net.jodah" % "failsafe" % "2.3.1"
-)
+lazy val root = (project in file("."))
+  .enablePlugins(PlayJava)
+  .settings(
+    name := """rest-api-blog-play-sql""",
+    organization := "pl.jakubtworek",
+    version := "1.0-SNAPSHOT",
+    scalaVersion := "2.13.9",
+    libraryDependencies ++= Seq(
+      guice,
+      javaJpa,
+      javaJdbc,
+      "mysql" % "mysql-connector-java" % "8.0.30",
+      "org.hibernate" % "hibernate-core" % "5.5.6",
+      "com.palominolabs.http" % "url-builder" % "1.1.4",
+      "io.dropwizard.metrics" % "metrics-core" % "4.2.12",
+      "net.jodah" % "failsafe" % "2.4.4"
+    ),
+    PlayKeys.externalizeResources := false,
+    (Test / testOptions) := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v")),
+    javacOptions ++= Seq(
+      "-Xlint:unchecked",
+      "-Xlint:deprecation",
+      "-Werror"
+    )
+  )

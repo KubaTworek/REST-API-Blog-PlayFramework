@@ -25,7 +25,6 @@ import static play.mvc.Http.Status.*;
 
 public class UserAction extends Action.Simple {
     private final Logger logger = LoggerFactory.getLogger("application.UserAction");
-
     private final Meter requestsMeter;
     private final Timer responsesTimer;
     private final HttpExecutionContext httpExecutionContext;
@@ -49,9 +48,7 @@ public class UserAction extends Action.Simple {
         requestsMeter.mark();
         if (req.accepts("application/json")) {
             final Timer.Context time = responsesTimer.time();
-            return futures.timeout(doCall(req), 1L, TimeUnit.SECONDS).exceptionally(e -> {
-                return (Results.status(GATEWAY_TIMEOUT, views.html.timeout.render()));
-            }).whenComplete((r, e) -> time.close());
+            return futures.timeout(doCall(req), 1L, TimeUnit.SECONDS).exceptionally(e -> (Results.status(GATEWAY_TIMEOUT, views.html.timeout.render()))).whenComplete((r, e) -> time.close());
         } else {
             return completedFuture(
                     status(NOT_ACCEPTABLE, "We only accept application/json")

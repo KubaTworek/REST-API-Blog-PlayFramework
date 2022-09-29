@@ -1,52 +1,41 @@
 package users.model;
 
-import users.model.User;
-
 public class UserResource {
     private String id;
-    private String link;
     private String firstName;
     private String lastName;
+    private String link;
 
     public UserResource() {
     }
 
-    public UserResource(String id, String link, String firstName, String lastName) {
+    public UserResource(String id, String firstName, String lastName, String link) {
         this.id = id;
-        this.link = link;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.link = link;
     }
 
     public UserResource(User user, String link) {
         this.id = user.id.toString();
-        this.link = link;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
+        this.link = link;
     }
-
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getLink() {
+        return link;
     }
 }

@@ -20,19 +20,19 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 @Singleton
 public class JPAUserRepository implements UserRepository {
 
-    private final JPAApi jpapi;
+    private final JPAApi jpaApi;
     private final DatabaseExecutionContext executionContext;
     private final CircuitBreaker<Optional<User>> circuitBreaker = new CircuitBreaker<Optional<User>>().withFailureThreshold(1).withSuccessThreshold(3);
 
     @Inject
-    public JPAUserRepository(JPAApi jpapi, DatabaseExecutionContext executionContext) {
-        this.jpapi = jpapi;
+    public JPAUserRepository(JPAApi jpaApi, DatabaseExecutionContext executionContext) {
+        this.jpaApi = jpaApi;
         this.executionContext = executionContext;
     }
 
     @Override
     public CompletionStage<Stream<User>> findAll() {
-        return supplyAsync(() -> wrap(em -> select(em)), executionContext);
+        return supplyAsync(() -> wrap(this::select), executionContext);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class JPAUserRepository implements UserRepository {
     }
 
     private <T> T wrap(Function<EntityManager, T> function) {
-        return jpapi.withTransaction(function);
+        return jpaApi.withTransaction(function);
     }
 
     private Optional<User> lookup(EntityManager em, Long id) {
