@@ -30,7 +30,12 @@ public class JPAPostRepository implements PostRepository{
 
     @Override
     public CompletionStage<Stream<Post>> findAll() {
-        return supplyAsync(() -> wrap(this::select), executionContext);
+        return supplyAsync(() -> wrap(this::selectAll), executionContext);
+    }
+
+    @Override
+    public CompletionStage<Stream<Post>> findAllByUser(Long userId) {
+        return supplyAsync(() -> wrap(em -> selectByUserId(em,userId)), executionContext);
     }
 
     @Override
@@ -56,8 +61,13 @@ public class JPAPostRepository implements PostRepository{
         return Optional.ofNullable(em.find(Post.class, id));
     }
 
-    private Stream<Post> select(EntityManager em) {
-        TypedQuery<Post> query = em.createQuery("SELECT p FROM Post p", Post.class);
+    private Stream<Post> selectAll(EntityManager em) {
+        TypedQuery<Post> query = em.createQuery("SELECT p FROM Post p ORDER BY p.timestamp desc", Post.class);
+        return query.getResultList().stream();
+    }
+
+    private Stream<Post> selectByUserId(EntityManager em, Long userId) {
+        TypedQuery<Post> query = em.createQuery("SELECT p FROM Post p WHERE p.user.id = " + userId, Post.class);
         return query.getResultList().stream();
     }
 

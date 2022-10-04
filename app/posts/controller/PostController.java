@@ -36,6 +36,13 @@ public class PostController {
         }, httpExecutionContext.current());
     }
 
+    public CompletionStage<Result> findAllByUser(Http.Request request, String userId) {
+        return postResourceHandler.findAllByUser(request, userId).thenApplyAsync(posts -> {
+            final List<PostResource> postList = posts.collect(Collectors.toList());
+            return ok(Json.toJson(postList));
+        }, httpExecutionContext.current());
+    }
+
     public CompletionStage<Result> findById(Http.Request request, String id) {
         return postResourceHandler.findById(request, id).thenApplyAsync(optionalResource -> optionalResource.map(resource ->
                 ok(Json.toJson(resource))
@@ -51,9 +58,9 @@ public class PostController {
         ), httpExecutionContext.current());
     }
 
-    public CompletionStage<Result> save(Http.Request request) {
+    public CompletionStage<Result> save(Http.Request request, String userId) {
         JsonNode json = request.body().asJson();
         final PostResource resource = Json.fromJson(json, PostResource.class);
-        return postResourceHandler.save(request, resource).thenApplyAsync(savedResource -> created(Json.toJson(savedResource)), httpExecutionContext.current());
+        return postResourceHandler.save(request, resource, userId).thenApplyAsync(savedResource -> created(Json.toJson(savedResource)), httpExecutionContext.current());
     }
 }

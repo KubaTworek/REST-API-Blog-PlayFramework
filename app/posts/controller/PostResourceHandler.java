@@ -6,6 +6,8 @@ import play.mvc.Http;
 import posts.model.Post;
 import posts.model.PostResource;
 import posts.repository.PostRepository;
+import users.model.User;
+import users.repository.UserRepository;
 
 import javax.inject.Inject;
 import java.nio.charset.CharacterCodingException;
@@ -15,11 +17,13 @@ import java.util.stream.Stream;
 
 public class PostResourceHandler {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
     private final HttpExecutionContext httpExecutionContext;
 
     @Inject
-    public PostResourceHandler(PostRepository postRepository, HttpExecutionContext httpExecutionContext) {
+    public PostResourceHandler(PostRepository postRepository, UserRepository userRepository, HttpExecutionContext httpExecutionContext) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
         this.httpExecutionContext = httpExecutionContext;
     }
 
@@ -27,8 +31,12 @@ public class PostResourceHandler {
         return postRepository.findAll().thenApplyAsync(postStream -> postStream.map(post -> new PostResource(post, link(request, post))), httpExecutionContext.current());
     }
 
-    public CompletionStage<PostResource> save(Http.Request request, PostResource resource) {
-        final Post post = new Post(resource.getTitle(), resource.getText());
+    public CompletionStage<Stream<PostResource>> findAllByUser(Http.Request request, String userId) {
+        return postRepository.findAllByUser(Long.parseLong(userId)).thenApplyAsync(postStream -> postStream.map(post -> new PostResource(post, link(request, post))), httpExecutionContext.current());
+    }
+
+    public CompletionStage<PostResource> save(Http.Request request, PostResource resource,String userId) {
+        final Post post = new Post(resource.getTitle(), resource.getText(), userRepository.findUserById(Long.parseLong(userId)));
         return postRepository.save(post).thenApplyAsync(savedPost -> new PostResource(savedPost, link(request, savedPost)), httpExecutionContext.current());
     }
 

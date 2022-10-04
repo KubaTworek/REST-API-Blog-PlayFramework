@@ -11,4 +11,5 @@ public interface UserRepository {
     CompletionStage<User> save(User user);
     CompletionStage<Optional<User>> findById(Long id);
     CompletionStage<Optional<User>> update(Long id, User user);
+    User findUserById(Long userId);
 }

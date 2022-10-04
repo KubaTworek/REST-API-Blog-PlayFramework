@@ -49,6 +49,10 @@ public class JPAUserRepository implements UserRepository {
     public CompletionStage<Optional<User>> update(Long id, User user) {
         return supplyAsync(() -> wrap(em -> Failsafe.with(circuitBreaker).get(() -> modify(em, id, user))), executionContext);
     }
+    @Override
+    public User findUserById(Long id){
+        return wrap(em -> em.find(User.class, id));
+    }
 
     private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(function);

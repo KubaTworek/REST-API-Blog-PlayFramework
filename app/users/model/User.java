@@ -19,10 +19,12 @@ public class User {
     public String firstName;
     public String lastName;
 
-    @OneToMany(mappedBy = "user", cascade = { REMOVE, ALL })
+    @OneToMany(fetch=FetchType.EAGER, cascade = { REMOVE, ALL })
+    @JoinColumn(name = "user_id")
     public List<Post> posts;
 
-    @OneToMany(mappedBy = "user", cascade = { REMOVE, ALL })
+    @OneToMany(cascade = { REMOVE, ALL })
+    @JoinColumn(name = "user_id")
     public List<Comment> comments;
 
     public User() {

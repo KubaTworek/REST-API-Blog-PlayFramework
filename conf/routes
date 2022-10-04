@@ -20,11 +20,11 @@ PUT    /comments/:id        comments.controller.CommentController.update(request
 # DELETE    /comments/:id        comments.controller.CommentController.update(request:Request, id)
 
 # Posts endpoints
-# GET    /posts            posts.controller.PostController.findAll(request:Request) find all order by newest
-# GET    /posts            posts.controller.PostController.findAll(request:Request) find all by user
-GET    /posts/:id        posts.controller.PostController.findById(request:Request,id)
-# POST   /posts            posts.controller.PostController.save(request:Request) create by user
-PUT    /posts/:id        posts.controller.PostController.update(request:Request, id)
+# GET    /posts               posts.controller.PostController.findAll(request:Request) find all order by newest
+GET    /posts/user/:userId  posts.controller.PostController.findAllByUser(request:Request,userId)
+GET    /posts/:id           posts.controller.PostController.findById(request:Request,id)
+POST   /posts/user/:userId  posts.controller.PostController.save(request:Request,userId)
+PUT    /posts/:id           posts.controller.PostController.update(request:Request, id)
 # DELETE    /posts/:id        posts.controller.PostController.update(request:Request, id)
 
 # Map static resources from the /public folder to the /assets URL path

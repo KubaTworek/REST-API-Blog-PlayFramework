@@ -4,15 +4,17 @@ public class PostResource {
     private String id;
     private String title;
     private String text;
+    private String timestamp;
     private String link;
 
     public PostResource() {
     }
 
-    public PostResource(String id, String title, String text, String link) {
+    public PostResource(String id, String title, String text, String timestamp, String link) {
         this.id = id;
         this.title = title;
         this.text = text;
+        this.timestamp = timestamp;
         this.link = link;
     }
 
@@ -20,6 +22,7 @@ public class PostResource {
         this.id = post.id.toString();
         this.title = post.title;
         this.text = post.text;
+        this.timestamp = post.timestamp.toString();
         this.link = link;
     }
 
@@ -33,6 +36,10 @@ public class PostResource {
 
     public String getText() {
         return text;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public String getLink() {
