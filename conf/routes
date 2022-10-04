@@ -10,18 +10,22 @@ GET    /users            users.controller.UserController.findAll(request:Request
 GET    /users/:id        users.controller.UserController.findById(request:Request,id)
 POST   /users            users.controller.UserController.save(request:Request)
 PUT    /users/:id        users.controller.UserController.update(request:Request, id)
+# DELETE    /users/:id        users.controller.UserController.update(request:Request, id)
 
 # Comments endpoints
-GET    /comments            comments.controller.CommentController.findAll(request:Request)
+# GET    /comments            comments.controller.CommentController.findAll(request:Request) find by post
 GET    /comments/:id        comments.controller.CommentController.findById(request:Request,id)
-POST   /comments            comments.controller.CommentController.save(request:Request)
+# POST   /comments            comments.controller.CommentController.save(request:Request) create for post by user
 PUT    /comments/:id        comments.controller.CommentController.update(request:Request, id)
+# DELETE    /comments/:id        comments.controller.CommentController.update(request:Request, id)
 
 # Posts endpoints
-GET    /posts            posts.controller.PostController.findAll(request:Request)
+# GET    /posts            posts.controller.PostController.findAll(request:Request) find all order by newest
+# GET    /posts            posts.controller.PostController.findAll(request:Request) find all by user
 GET    /posts/:id        posts.controller.PostController.findById(request:Request,id)
-POST   /posts            posts.controller.PostController.save(request:Request)
+# POST   /posts            posts.controller.PostController.save(request:Request) create by user
 PUT    /posts/:id        posts.controller.PostController.update(request:Request, id)
+# DELETE    /posts/:id        posts.controller.PostController.update(request:Request, id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)
