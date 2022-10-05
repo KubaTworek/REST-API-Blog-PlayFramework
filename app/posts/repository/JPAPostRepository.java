@@ -5,6 +5,7 @@ import net.jodah.failsafe.CircuitBreaker;
 import net.jodah.failsafe.Failsafe;
 import play.db.jpa.JPAApi;
 import posts.model.Post;
+import users.model.User;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -51,6 +52,11 @@ public class JPAPostRepository implements PostRepository{
     @Override
     public CompletionStage<Optional<Post>> update(Long id, Post post) {
         return supplyAsync(() -> wrap(em -> Failsafe.with(circuitBreaker).get(() -> modify(em, id, post))), executionContext);
+    }
+
+    @Override
+    public Post findPostById(Long id){
+        return wrap(em -> em.find(Post.class, id));
     }
 
     private <T> T wrap(Function<EntityManager, T> function) {

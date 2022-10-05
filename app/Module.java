@@ -30,7 +30,7 @@ public class Module extends AbstractModule {
     public void configure() {
         bind(MetricRegistry.class).toProvider(MetricRegistryProvider.class).asEagerSingleton();
         bind(UserRepository.class).to(JPAUserRepository.class).asEagerSingleton();
-        bind(CommentRepository.class).to(JPACommentRepository.class).asEagerSingleton();
+        bind(PostRepository.class).to(JPAPostRepository.class).asEagerSingleton();
         bind(PostRepository.class).to(JPAPostRepository.class).asEagerSingleton();
     }
 }

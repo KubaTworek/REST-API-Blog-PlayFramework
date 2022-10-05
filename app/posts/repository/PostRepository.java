@@ -13,4 +13,5 @@ public interface PostRepository {
     CompletionStage<Optional<Post>> findById(Long id);
     CompletionStage<Optional<Post>> update(Long id, Post post);
     CompletionStage<Stream<Post>> findAllByUser(Long userId);
+    Post findPostById(Long postId);
 }

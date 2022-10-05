@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.REMOVE;
+
 @Entity
 @Table(name="Comment")
 public class Comment {
@@ -14,12 +17,10 @@ public class Comment {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Long id;
     public String content;
-    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = { REMOVE, ALL })
     @JoinColumn(name="user_id")
     public User user;
-    @ManyToMany(fetch=FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(fetch=FetchType.EAGER, cascade = { REMOVE, ALL })
     @JoinTable(
             name="PostComment",
             joinColumns = @JoinColumn(name="comment_id"),
@@ -32,6 +33,12 @@ public class Comment {
 
     public Comment(String content) {
         this.content = content;
+    }
+
+    public Comment(String content, User user, Post post) {
+        this.content = content;
+        user.add(this);
+        post.add(this);
     }
 
     public void setUser(User user) {

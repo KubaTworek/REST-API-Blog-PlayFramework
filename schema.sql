@@ -11,21 +11,24 @@ CREATE TABLE IF NOT EXISTS `Post` (
                            `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
                            `title` varchar(50) NOT NULL,
                            `text` LONGTEXT NOT NULL,
-                           `user_id` int NOT NULL,
+                           `timestamp` BIGINT DEFAULT NULL,
+                           `user_id` int,
                            FOREIGN KEY(`user_id`) REFERENCES `User`(`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `Comment` (
                             `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
                             `content` LONGTEXT NOT NULL,
-                            `post_id` int NOT NULL,
-                            FOREIGN KEY(`post_id`) REFERENCES `Post`(`id`)
+                            `post_id` int,
+                            `user_id` int,
+                            FOREIGN KEY(`post_id`) REFERENCES `Post`(`id`),
+                            FOREIGN KEY(`user_id`) REFERENCES `User`(`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `PostComment` (
                            `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                           `post_id` int NOT NULL,
-                           `comment_id` int NOT NULL,
+                           `post_id` int,
+                           `comment_id` int,
                            FOREIGN KEY(`post_id`) REFERENCES `Post`(`id`),
                            FOREIGN KEY(`comment_id`) REFERENCES `Comment`(`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

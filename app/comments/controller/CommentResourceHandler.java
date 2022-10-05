@@ -6,6 +6,8 @@ import comments.model.CommentResource;
 import comments.repository.CommentRepository;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Http;
+import posts.repository.PostRepository;
+import users.repository.UserRepository;
 
 import javax.inject.Inject;
 import java.nio.charset.CharacterCodingException;
@@ -15,11 +17,15 @@ import java.util.stream.Stream;
 
 public class CommentResourceHandler {
     private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
     private final HttpExecutionContext httpExecutionContext;
 
     @Inject
-    public CommentResourceHandler(CommentRepository commentRepository, HttpExecutionContext httpExecutionContext) {
+    public CommentResourceHandler(CommentRepository commentRepository, PostRepository postRepository, UserRepository userRepository, HttpExecutionContext httpExecutionContext) {
         this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
         this.httpExecutionContext = httpExecutionContext;
     }
 
@@ -27,8 +33,8 @@ public class CommentResourceHandler {
         return commentRepository.findAll().thenApplyAsync(commentStream -> commentStream.map(comment -> new CommentResource(comment, link(request, comment))), httpExecutionContext.current());
     }
 
-    public CompletionStage<CommentResource> save(Http.Request request, CommentResource resource) {
-        final Comment comment = new Comment(resource.getContent());
+    public CompletionStage<CommentResource> save(Http.Request request, CommentResource resource, String userId, String postId) {
+        final Comment comment = new Comment(resource.getContent(), userRepository.findUserById(Long.parseLong(userId)), postRepository.findPostById(Long.parseLong(postId)));
         return commentRepository.save(comment).thenApplyAsync(savedComment -> new CommentResource(savedComment, link(request, savedComment)), httpExecutionContext.current());
     }
 

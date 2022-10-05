@@ -50,9 +50,9 @@ public class CommentController {
         ), httpExecutionContext.current());
     }
 
-    public CompletionStage<Result> save(Http.Request request) {
+    public CompletionStage<Result> save(Http.Request request, String userId, String postId) {
         JsonNode json = request.body().asJson();
         final CommentResource resource = Json.fromJson(json, CommentResource.class);
-        return commentResourceHandler.save(request, resource).thenApplyAsync(savedResource -> created(Json.toJson(savedResource)), httpExecutionContext.current());
+        return commentResourceHandler.save(request, resource, userId, postId).thenApplyAsync(savedResource -> created(Json.toJson(savedResource)), httpExecutionContext.current());
     }
 }

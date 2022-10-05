@@ -13,14 +13,14 @@ PUT    /users/:id        users.controller.UserController.update(request:Request,
 # DELETE    /users/:id        users.controller.UserController.update(request:Request, id)
 
 # Comments endpoints
-# GET    /comments            comments.controller.CommentController.findAll(request:Request) find by post
-GET    /comments/:id        comments.controller.CommentController.findById(request:Request,id)
-# POST   /comments            comments.controller.CommentController.save(request:Request) create for post by user
-PUT    /comments/:id        comments.controller.CommentController.update(request:Request, id)
-# DELETE    /comments/:id        comments.controller.CommentController.update(request:Request, id)
+# GET    /comments                          comments.controller.CommentController.findAll(request:Request) find by post
+GET    /comments/:id                        comments.controller.CommentController.findById(request:Request,id)
+POST   /comments/user/:userId/post/:postId  comments.controller.CommentController.save(request:Request,userId,postId)
+PUT    /comments/:id                        comments.controller.CommentController.update(request:Request, id)
+# DELETE    /comments/:id                   comments.controller.CommentController.update(request:Request, id)
 
 # Posts endpoints
-# GET    /posts               posts.controller.PostController.findAll(request:Request) find all order by newest
+GET    /posts               posts.controller.PostController.findAll(request:Request)
 GET    /posts/user/:userId  posts.controller.PostController.findAllByUser(request:Request,userId)
 GET    /posts/:id           posts.controller.PostController.findById(request:Request,id)
 POST   /posts/user/:userId  posts.controller.PostController.save(request:Request,userId)

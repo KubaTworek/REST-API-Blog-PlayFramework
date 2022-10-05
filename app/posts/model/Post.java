@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.REMOVE;
+
 @Entity
 @Table(name="Post")
 public class Post {
@@ -16,13 +19,11 @@ public class Post {
     public String title;
     public String text;
     public Long timestamp;
-    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     public User user;
 
-    @ManyToMany(fetch=FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(fetch=FetchType.EAGER, cascade = { REMOVE, ALL })
     @JoinTable(
             name="PostComment",
             joinColumns = @JoinColumn(name="post_id"),
